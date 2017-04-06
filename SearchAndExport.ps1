@@ -131,7 +131,6 @@ $CheckSystemPath = {
       }
 }
 
-&($CheckSystemPath)
 
 if(!(&($CheckSystemPath))){
 
