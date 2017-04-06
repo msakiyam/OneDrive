@@ -92,6 +92,7 @@ if($preview.Results){
 "The total number of files to be downloaded: {0}" -f $FileCount
 "The total download size {0}MB" -f [math]::Round(($FileSizeTotal/1024/1024),2)
 Start-sleep 3
+
 }else{
 
 "Failed to retireve the preview, continuing..."
@@ -136,7 +137,7 @@ if(!(&($CheckSystemPath))){
 
     $AZCopyPATH = ";$AZCOPYDir"
     $env:Path += $AZCopyPATH
-    
+
 }
 
 $JournalFile = "$Home\AppData\Local\Microsoft\Azure\AzCopy\AzCopy.jnl"
