@@ -11,8 +11,8 @@
 #
 # User Name and Password below
 #
-$User = "Mine.Sakiyama@csra.com";
-$Password = ConvertTo-SecureString "Tu35d@y54321!"  -AsPlainText -Force;
+$User = "xxxxxxxxxxxxx";
+$Password = ConvertTo-SecureString "xxxxxxxxxxx"  -AsPlainText -Force;
 $Cred = New-Object -TypeName System.Management.Automation.PSCredential($User, $Password);
 
 #
