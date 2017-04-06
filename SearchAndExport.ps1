@@ -55,7 +55,6 @@ Write-Host "`r"
 "Search Status: " + (New-ComplianceSearchAction -SearchName $CompliantSearchName -Report -ErrorAction silentlycontinue).Status
 "Proceeding.."
 
-
 # Generate the preview 
 
 "Please wait for the preview to complete..."
@@ -95,7 +94,6 @@ if($preview.Results){
 Start-sleep 3
 }else{
 
-
 "Failed to retireve the preview, continuing..."
 Start-Sleep 3
 
@@ -131,10 +129,14 @@ $CheckSystemPath = {
            return $false
       }
 }
+
 &($CheckSystemPath)
+
 if(!(&($CheckSystemPath))){
-$AZCopyPATH = ";$AZCOPYDir"
-$env:Path += $AZCopyPATH
+
+    $AZCopyPATH = ";$AZCOPYDir"
+    $env:Path += $AZCopyPATH
+    
 }
 
 $JournalFile = "$Home\AppData\Local\Microsoft\Azure\AzCopy\AzCopy.jnl"
