@@ -15,8 +15,6 @@
 #
 $AZCOPYDir = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy"
 
-
-
 $CurrentWorkingDirectory = (Get-Item -Path ".\" -Verbose).FullName
 $PSDFileName = "UserConfig.psd1"
     
@@ -51,7 +49,6 @@ $UpdateConfigFile ={
     
     #PSD1 Format 
     #@{UserName = 'mine.sakiyama@csra.com';SecurePasswordString = ""}
-    
     
     $PSD1FileString = '@{UserName = ' + "`'" + $UserName + "`'" + ";"
     $PSD1FileString = $PSD1FileString + "DownloadDirectory = " + "`"" + $DownloadDir + "`";"
@@ -95,7 +92,6 @@ $PasswordText = $Config.SecurePasswordString
 $SecurePassword = $PasswordText| ConvertTo-SecureString 
 $User = $Config.UserName
 $LocalDirectory = $Config.DownloadDirectory
-
 
 # Creating the Cred object
 $Cred = New-Object System.Management.Automation.PSCredential -ArgumentList $User, $SecurePassword
@@ -149,8 +145,6 @@ $displayOptions = {
 $selection = Read-Host "Enter the number"
 
 $CompliantSearchName = $Options.Item([int]$selection)
-
-
 
 # Start Compliance Search
 ""
