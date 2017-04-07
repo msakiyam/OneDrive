@@ -2,7 +2,7 @@
 # Title: OneDrive ComplianceSearch and Export
 # Author: Mine Sakiyama (Mine.Sakiyama@csra.com)
 # Date: 4/4/2017
-# Version: 1.0
+# Version: 1.2
 # CSRA Inc.(C) All Rights Reserved
 # CSRA Think Next Now
 # 
