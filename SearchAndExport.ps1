@@ -16,12 +16,15 @@
 $AZCOPYDir = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy"
 
 $CurrentWorkingDirectory = (Get-Item -Path ".\" -Verbose).FullName
-$PSDFileName = "$env:HOMEDRIVE$env:HOMEPATH\UserConfig.psd1"
+$PSDFileDir = "$env:HOMEDRIVE$env:HOMEPATH"
+$PSDFileName = "UserConfig.psd1"
+$PSDFileFullPath = "$PSDFileDir\$PSDFileName"
 $SecurityAndCompliance = "*compliance.protection.outlook.com"
 $SecurityAndComplianceUri = "https://ps.compliance.protection.outlook.com/powershell-liveid/"
+
 $UpdateConfigFile ={  
  
-    if(Test-Path $PSDFileName){Remove-Item $PSDFileName}
+    if(Test-Path $PSDFileFullPath){Remove-Item $PSDFileFullPath}
 
     Write-Host "`r"
     Write-Host "Welcome to OneDrive Scritp Configuration Tool.." -BackgroundColor Black -ForegroundColor White
@@ -59,7 +62,7 @@ $UpdateConfigFile ={
     for($i = 0;$i -le 2;$i++){Write-Host "." -NoNewline; sleep 1}
 
     # Updating the Config File
-    Set-Content $PSDFileName $PSD1FileString
+    Set-Content $PSDFileFullPath $PSD1FileString
 
     Write-Host "`r"
     Write-Host "Done!"
@@ -72,7 +75,7 @@ $ComplianceSession = Get-PSSession |?{$_.ComputerName -like $SecurityAndComplian
 
 # Check for Config file to read download dir
 if(Test-Path $PSDFileName){
-        $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $CurrentWorkingDirectory
+        $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $PSDFileDir
         $LocalDirectory = $Config.DownloadDirectory
 }
 else{
@@ -80,7 +83,7 @@ else{
        Write-Host "The config file was not found. Running the config file tool.." -BackgroundColor White -ForegroundColor Red
        Write-Host "`r"
        &$UpdateConfigFile
-       $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $CurrentWorkingDirectory
+       $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $PSDFileDir
        $LocalDirectory = $Config.DownloadDirectory
 }
 
