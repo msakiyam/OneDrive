@@ -260,14 +260,15 @@ Write-host $Search.Items -ForegroundColor Black -BackgroundColor Gray
 Write-Host "Total Size: " -BackgroundColor White -ForegroundColor Black -NoNewline
 write-host ([math]::Round(($Search.Size/1024/1024),2)) "MB" -ForegroundColor Black -BackgroundColor Gray
 
-if($Search.Items -eq 0){
+if([int]$Search.Items -ge 1){
 
     Write-Host "Would you like to proceed to download? Press any key to continue ..." -BackgroundColor Black -ForegroundColor White
     $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
-} else{
+} else {
 
-    Write-Host "The search did not find any items to download.. exiting"
+    Write-Host "The search did not find any items to download.. exiting" -BackgroundColor Black -ForegroundColor White 
+        
     Break
 
 }
