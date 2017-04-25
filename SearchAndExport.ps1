@@ -267,7 +267,7 @@ if([int]$Search.Items -ge 1){
 
 } else {
 
-    Write-Host "The search did not find any items to download.. exiting" -BackgroundColor Black -ForegroundColor White 
+    Write-Host "The search did not find any items to download.. exiting" -BackgroundColor Green-ForegroundColor Yellow
         
     Break
 
