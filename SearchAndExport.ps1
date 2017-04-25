@@ -16,7 +16,7 @@
 $AZCOPYDir = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy"
 
 $CurrentWorkingDirectory = (Get-Item -Path ".\" -Verbose).FullName
-$PSDFileName = "UserConfig.psd1"
+$PSDFileName = "$env:HOMEDRIVE$env:HOMEPATH\UserConfig.psd1"
 $SecurityAndCompliance = "*compliance.protection.outlook.com"
 $SecurityAndComplianceUri = "https://ps.compliance.protection.outlook.com/powershell-liveid/"
 $UpdateConfigFile ={  
