@@ -14,7 +14,7 @@
 # Enter the directory where AZCopy is installed.(Default is already entered below) 
 #
 $AZCOPYDir = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy"
-#
+
 $CurrentWorkingDirectory = (Get-Item -Path ".\" -Verbose).FullName
 $PSDFileDir = "$env:HOMEDRIVE$env:HOMEPATH"
 $PSDFileName = "UserConfig.psd1"
@@ -74,7 +74,7 @@ $UpdateConfigFile ={
 $ComplianceSession = Get-PSSession |?{$_.ComputerName -like $SecurityAndCompliance}
 
 # Check for Config file to read download dir
-if(Test-Path $PSDFileName){
+if(Test-Path $PSDFileFullPath){
         $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $PSDFileDir
         $LocalDirectory = $Config.DownloadDirectory
 }
