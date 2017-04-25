@@ -98,7 +98,7 @@ else{
    Get-PSSession |?{$_.ComputerName -like $SecurityAndCompliance} | Remove-PSSession -ErrorAction SilentlyContinue | Out-Null
      
    #Checking for the config file
-   $ConfigFileExists = Test-Path $PSDFileName
+   $ConfigFileExists = Test-Path $PSDFileFullPath
    if(!$ConfigFileExists){
    
        #If the config file does not exist, run the create config file tool
