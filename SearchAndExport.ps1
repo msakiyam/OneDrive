@@ -117,7 +117,7 @@ else{
    
    #genereate cred object for login.
    #region Reading the Credential File
-   $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $CurrentWorkingDirectory
+   $Config = Import-LocalizedData -FileName $PSDFileName -BaseDirectory $PSDFileDir
    $LocalDirectory = $Config.DownloadDirectory
    # Retrieving the config information 
    $PasswordText = $Config.SecurePasswordString
@@ -260,8 +260,18 @@ Write-host $Search.Items -ForegroundColor Black -BackgroundColor Gray
 Write-Host "Total Size: " -BackgroundColor White -ForegroundColor Black -NoNewline
 write-host ([math]::Round(($Search.Size/1024/1024),2)) "MB" -ForegroundColor Black -BackgroundColor Gray
 
-Write-Host "Would you like to proceed to download? Press any key to continue ..." -BackgroundColor Black -ForegroundColor White
-$x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+if($Search.Items -eq 0){
+
+    Write-Host "Would you like to proceed to download? Press any key to continue ..." -BackgroundColor Black -ForegroundColor White
+    $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+} else{
+
+    Write-Host "The search did not find any items to download.. exiting"
+    Break
+
+}
+
 
 #region Report and Preview (propbably not needed)
 ## Check the status
