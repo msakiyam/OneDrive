@@ -225,14 +225,13 @@ if($Search){
     $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
    
    #kick off the search...
-   Start-ComplianceSearch -Identity $Search.Identity
+   $SearchJob = Start-Job {Start-ComplianceSearch -Identity $Search.Identity}
 
 }else{
 
   Write-Host "No associated search found!"
 
 }
-
 
 # Check the status of the search...
 Write-Host "Running the Search..."
@@ -245,34 +244,11 @@ Write-Host $PleaseWait -NoNewline -ForegroundColor Yellow -BackgroundColor Blue
 Do { 
     [Console]::SetCursorPosition($x,$y)
     Write-Host $HourGlass[$hourglassCounter] -ForegroundColor Yellow -BackgroundColor Blue -NoNewline
-    sleep 0.2
+    Start-Sleep -Milliseconds 250
     if($hourglassCounter -lt $HourGlass.Count){ $hourglassCounter++ }else{$hourglassCounter = 0}
        
-}until((Get-ComplianceSearch -Identity (Get-ComplianceSearch -Case $eDiscoveryCaseID -ErrorAction silentlycontinue).Identity).Status -eq "Completed")
-
-Write-Host "`r"
-
-#report the number of files and total size of the download
-$Search = Get-ComplianceSearch -Identity (Get-ComplianceSearch -Case $eDiscoveryCaseID -ErrorAction silentlycontinue).Identity
-
-Write-Host "Total Number of Items:  " -BackgroundColor White -ForegroundColor Black -NoNewline
-Write-host $Search.Items -ForegroundColor Black -BackgroundColor Gray
-Write-Host "Total Size: " -BackgroundColor White -ForegroundColor Black -NoNewline
-write-host ([math]::Round(($Search.Size/1024/1024),2)) "MB" -ForegroundColor Black -BackgroundColor Gray
-
-if([int]$Search.Items -ge 1){
-
-    Write-Host "Would you like to proceed to download? Press any key to continue ..." -BackgroundColor Black -ForegroundColor White
-    $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-
-} else {
-
-    Write-Host "The search did not find any items to download.. exiting" -BackgroundColor Green -ForegroundColor Yellow
-        
-    Break
-
-}
-
+#}until((Get-ComplianceSearch -Identity (Get-ComplianceSearch -Case $eDiscoveryCaseID -ErrorAction silentlycontinue).Identity).Status -eq "Completed")
+}Until($SearchJob.State -eq "Completed")
 
 #region Report and Preview (propbably not needed)
 ## Check the status
@@ -311,11 +287,11 @@ if([int]$Search.Items -ge 1){
 #      if($_ -like "*Size: *"){
 #  
 #          $size = [int]($_.split(":")[1]).trim()
-#          if($size -gt 0){
+#         # if($size -gt 0){
 #          $FileCount++
 #          $FileSizeTotal = $FileSizeTotal + $size
 #  
-#          }
+#         # }
 #  
 #      }
 #  
@@ -335,6 +311,30 @@ if([int]$Search.Items -ge 1){
 #
 #}
 #endregion
+
+Write-Host "`r"
+
+#report the number of files and total size of the download
+$Search = Get-ComplianceSearch -Identity (Get-ComplianceSearch -Case $eDiscoveryCaseID -ErrorAction silentlycontinue).Identity
+
+Write-Host "Total Number of Items:  " -BackgroundColor White -ForegroundColor Black -NoNewline
+Write-host $Search.Items -ForegroundColor Black -BackgroundColor Gray
+Write-Host "Total Size: " -BackgroundColor White -ForegroundColor Black -NoNewline
+write-host ([math]::Round(($Search.Size/1024/1024),2)) "MB" -ForegroundColor Black -BackgroundColor Gray
+
+if([int]$Search.Items -ge 1){
+
+    Write-Host "Would you like to proceed to download? Press any key to continue ..." -BackgroundColor Black -ForegroundColor White
+    $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+} else {
+
+    Write-Host "The search did not find any items to download.. exiting" -BackgroundColor Green -ForegroundColor Yellow
+        
+    Break
+
+}
+
 
 # Export the result to Azure Drive
 
